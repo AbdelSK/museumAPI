@@ -12,6 +12,11 @@ from PIL import Image
 app = Flask(__name__)
 app.config.from_object(__name__)
 
+def load_image_into_numpy_array(image):
+  (im_width, im_height) = image.size
+  return np.array(image.getdata()).reshape(
+      (im_height, im_width, 3)).astype(np.uint8)
+	  
 @app.route('/upload', methods=['POST'])
 def classify():
 	img_size = (28, 28) 
