@@ -6,7 +6,6 @@ from io import StringIO
 
 from flask import Flask, jsonify, request
 import numpy as np
-from scipy.misc import imread, imresize
 import tensorflow as tf
 
 app = Flask(__name__)
