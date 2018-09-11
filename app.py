@@ -46,9 +46,9 @@ def classify():
 	with tf.Session() as sess:
 		# Feed the image_data as input to the graph and get first prediction
 		softmax_tensor = sess.graph.get_tensor_by_name('final_result:0')
-
-		predictions = sess.run(softmax_tensor, {'image_tensor:0': image_np_expanded})
-
+		image_tensor = sess.graph.get_tensor_by_name('image_tensor:0')
+		predictions = sess.run(softmax_tensor, feed_dict={image_tensor: image_np_expanded})
+		
 		# Sort to show labels of first prediction in order of confidence
 		top_k = predictions[0].argsort()[-len(predictions[0]):][::-1]
 		scoreList=[]
