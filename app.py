@@ -11,44 +11,6 @@ import tensorflow as tf
 app = Flask(__name__)
 app.config.from_object(__name__)
 
-# This could be added to the Flask configuration
-MODEL_PATH = 'logs/trained_graph.pb'
-
-# Read the graph definition file
-with open(MODEL_PATH, 'rb') as f:
-    graph_def = tf.GraphDef()
-    graph_def.ParseFromString(f.read())
-
-# Load the graph stored in `graph_def` into `graph`
-graph = tf.Graph() 
-with graph.as_default():
-    tf.import_graph_def(graph_def, name='')
-    
-# Enforce that no new nodes are added
-graph.finalize()
-
-# Create the session that we'll use to execute the model
-sess_config = tf.ConfigProto(
-    log_device_placement=False,
-    allow_soft_placement = True,
-    gpu_options = tf.GPUOptions(
-        per_process_gpu_memory_fraction=1
-    )
-)
-sess = tf.Session(graph=graph, config=sess_config)
-
-# Get the input and output operations
-input_op = graph.get_operation_by_name('images')
-input_tensor = input_op.outputs[0]
-output_op = graph.get_operation_by_name('Predictions')
-output_tensor = output_op.outputs[0]
-
-# All we need to classify an image is:
-# `sess` : we will use this session to run the graph (this is thread safe)
-# `input_tensor` : we will assign the image to this placeholder
-# `output_tensor` : the predictions will be stored here
-
-
 @app.route('/upload', methods=['POST'])
 def classify():
 	img_size = 28, 28 
