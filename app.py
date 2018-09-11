@@ -3,35 +3,39 @@ import random
 import time
 import re
 from io import BytesIO
+from io import StringIO
 import base64
-from flask import Flask, jsonify, request, json
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory, json
 import numpy as np
 import tensorflow as tf
 from PIL import Image
+from werkzeug import secure_filename
+import numpy as np
+import os
+import six.moves.urllib as urllib
+import sys
+from collections import defaultdict
+import urllib.request
+import imghdr
 
 app = Flask(__name__)
 app.config.from_object(__name__)
 
-def load_image_into_numpy_array(image):
-  (im_width, im_height) = image.size
-  return np.array(image.getdata()).reshape(
-      (im_height, im_width, 3)).astype(np.uint8)
-	  
+app.config['UPLOAD_FOLDER'] = 'uploads/'
+app.config['ALLOWED_EXTENSIONS'] = set(['png', 'jpg', 'jpeg'])
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
+
+		  
 @app.route('/upload', methods=['POST'])
 def classify():
-	img_size = (28, 28) 
 	image_url = request.values['imageBase64']
-	print(image_url)
-	image_string = re.search(r'base64,(.*)', image_url).group(1)  
-	image_bytes = BytesIO(base64.b64decode(image_string)) 
-	image = Image.open(image_bytes) 
-	image_np = load_image_into_numpy_array(image)
-	height, width, _ = image_np.shape
-	image_np_expanded = np.expand_dims(image_np, axis=0)
-	#image = image.resize(img_size, Image.LANCZOS)  
-	#image = image.convert('1')   
-	#image_array = np.asarray(image)
-	#image_array = image_array.flatten()#
+	imgpth = "/tmp/{}".format(base64.b64encode(imgurl.encode('utf-8')))
+    urllib.request.urlretrieve(imgurl, imgpth)
+
+	image_data = tf.gfile.FastGFile(imgpth, 'rb').read()
 
 	# Loads label file, strips off carriage return
 	label_lines = [line.rstrip() for line
@@ -46,9 +50,10 @@ def classify():
 	with tf.Session() as sess:
 		# Feed the image_data as input to the graph and get first prediction
 		softmax_tensor = sess.graph.get_tensor_by_name('final_result:0')
-		image_tensor = sess.graph.get_tensor_by_name('image_tensor:0')
-		predictions = sess.run(softmax_tensor, feed_dict={image_tensor: image_np_expanded})
-		
+
+		predictions = sess.run(softmax_tensor, \
+				 {'DecodeJpeg/contents:0': image_data})
+
 		# Sort to show labels of first prediction in order of confidence
 		top_k = predictions[0].argsort()[-len(predictions[0]):][::-1]
 		scoreList=[]
@@ -57,8 +62,8 @@ def classify():
 			score = predictions[0][node_id]
 			print('%s (score = %.5f)' % (human_string, score))
 			scoreList.append({
-				'label': human_string,
-				'score': score
+				'label': str(human_string),
+				'score': str(score)
 			})
 			
 		return json.dumps(scoreList)
