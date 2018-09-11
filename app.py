@@ -14,14 +14,16 @@ app.config.from_object(__name__)
 
 @app.route('/upload', methods=['POST'])
 def classify():
-	img_size = 28, 28 
+	img_size = (28, 28) 
 	image_url = request.values['imageBase64']
 	print(image_url)
 	image_string = re.search(r'base64,(.*)', image_url).group(1)  
 	image_bytes = BytesIO(base64.b64decode(image_string)) 
 	image = Image.open(image_bytes) 
-	#image = image.resize(img_size, Image.LANCZOS)  
+	image = image.resize(img_size,  Image.ANTIALIAS)  
 	image = image.convert('1')   
+	image_array = np.asarray(image)
+	image_array = image_array.flatten()
     # Read the image_data
 	#image_data = tf.gfile.FastGFile(image_path, 'rb').read()
 
@@ -41,7 +43,7 @@ def classify():
 		softmax_tensor = sess.graph.get_tensor_by_name('final_result:0')
 
 		predictions = sess.run(softmax_tensor, \
-				 {'DecodeJpeg/contents:0': image})
+				 {'DecodeJpeg/contents:0': image_array})
 
 		# Sort to show labels of first prediction in order of confidence
 		top_k = predictions[0].argsort()[-len(predictions[0]):][::-1]
