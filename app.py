@@ -20,6 +20,9 @@ def classify():
 	image_string = re.search(r'base64,(.*)', image_url).group(1)  
 	image_bytes = BytesIO(base64.b64decode(image_string)) 
 	image = Image.open(image_bytes) 
+	image_np = load_image_into_numpy_array(image)
+	height, width, _ = image_np.shape
+	image_np_expanded = np.expand_dims(image_np, axis=0)
 	#image = image.resize(img_size, Image.LANCZOS)  
 	#image = image.convert('1')   
 	#image_array = np.asarray(image)
@@ -39,8 +42,7 @@ def classify():
 		# Feed the image_data as input to the graph and get first prediction
 		softmax_tensor = sess.graph.get_tensor_by_name('final_result:0')
 
-		predictions = sess.run(softmax_tensor, \
-				 {'DecodeJpeg/contents:0': image})
+		predictions = sess.run(softmax_tensor, feed_dict={image_tensor: image_np_expanded})
 
 		# Sort to show labels of first prediction in order of confidence
 		top_k = predictions[0].argsort()[-len(predictions[0]):][::-1]
