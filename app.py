@@ -3,7 +3,7 @@ import random
 import time
 import re
 from io import StringIO
-
+import base64
 from flask import Flask, jsonify, request, json
 import numpy as np
 import tensorflow as tf
