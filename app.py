@@ -31,11 +31,10 @@ def allowed_file(filename):
 		  
 @app.route('/upload', methods=['POST'])
 def classify():
-	image_url = request.values['imageBase64']
-	imgpth = "/tmp/{}".format(base64.b64encode(imgurl.encode('utf-8')))
-    urllib.request.urlretrieve(imgurl, imgpth)
-	image_data = tf.gfile.FastGFile(imgpth, 'rb').read()
-
+	image_url = request.values['imageBase64'] 
+	imgpth = "/tmp/{}".format(base64.b64encode(imgurl.encode('utf-8'))) 
+	urllib.request.urlretrieve(imgurl, imgpth) 
+    image_data = tf.gfile.FastGFile(imgpth, 'rb').read()    
 	# Loads label file, strips off carriage return
 	label_lines = [line.rstrip() for line
 					   in tf.gfile.GFile("logs/trained_labels.txt")]
