@@ -17,8 +17,7 @@ def classify():
 	image_url = request.values['imageBase64']
 	print("aqui va la imagen: ")
 	print(image_url)
-	image_url2 = request.data['imageBase64']
-	print("aqui va la imagen2: ")
-	print(image_url2)
+	print("aqui va la request: ")
+	print(request)
 if __name__ == '__main__':
     app.run(debug=True, host= '0.0.0.0', port=8009)
