@@ -2,7 +2,7 @@ import logging
 import random
 import time
 import re
-from io import StringIO
+from io import BytesIO
 import base64
 from flask import Flask, jsonify, request, json
 import numpy as np
