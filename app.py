@@ -32,8 +32,7 @@ def allowed_file(filename):
 @app.route('/upload', methods=['POST'])
 def classify():
 	image_url = request.values['imageBase64'] 
-	imgpth = "/tmp/{}".format(base64.b64encode(imgurl.encode('utf-8'))) 
-	urllib.request.urlretrieve(imgurl, imgpth) 
+	imgpth = "/tmp/{}".format(base64.b64encode(imgurl.encode('utf-8')))
     image_data = tf.gfile.FastGFile(imgpth, 'rb').read()    
 	# Loads label file, strips off carriage return
     label_lines = [line.rstrip() for line
@@ -65,6 +64,6 @@ def classify():
             })
 			
         return json.dumps(scoreList)
-		
+
 if __name__ == '__main__':
     app.run(debug=True, host= '0.0.0.0', port=8009)
