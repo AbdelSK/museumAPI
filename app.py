@@ -4,7 +4,7 @@ import time
 import re
 from io import StringIO
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, json
 import numpy as np
 import tensorflow as tf
 
@@ -44,11 +44,16 @@ def classify():
 
 		# Sort to show labels of first prediction in order of confidence
 		top_k = predictions[0].argsort()[-len(predictions[0]):][::-1]
-
+		scoreList=[]
 		for node_id in top_k:
 			human_string = label_lines[node_id]
 			score = predictions[0][node_id]
-			print('%s (score = %.5f)' % (human_string, score))
-
+			#print('%s (score = %.5f)' % (human_string, score))
+			scoreList.append({
+				'label': human_string,
+				'score': score
+			})
+			
+		return json.dumps(scoreList)
 if __name__ == '__main__':
     app.run(debug=True, port=8009)
