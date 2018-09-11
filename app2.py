@@ -9,6 +9,11 @@ import numpy as np
 import tensorflow as tf
 from PIL import Image
 from werkzeug import secure_filename
+import numpy as np
+import os
+import six.moves.urllib as urllib
+import sys
+from collections import defaultdict
 
 app = Flask(__name__)
 app.config.from_object(__name__)
