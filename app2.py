@@ -8,6 +8,7 @@ from flask import Flask, jsonify, request, json
 import numpy as np
 import tensorflow as tf
 from PIL import Image
+from werkzeug import secure_filename
 
 app = Flask(__name__)
 app.config.from_object(__name__)
