@@ -20,10 +20,10 @@ def classify():
 	image_string = re.search(r'base64,(.*)', image_url).group(1)  
 	image_bytes = BytesIO(base64.b64decode(image_string)) 
 	image = Image.open(image_bytes) 
-	image = image.resize(img_size, Image.LANCZOS)  
-	image = image.convert('1')   
-	image_array = np.asarray(image)
-	image_array = image_array.flatten()
+	#image = image.resize(img_size, Image.LANCZOS)  
+	#image = image.convert('1')   
+	#image_array = np.asarray(image)
+	#image_array = image_array.flatten()
 
 	# Loads label file, strips off carriage return
 	label_lines = [line.rstrip() for line
@@ -40,7 +40,7 @@ def classify():
 		softmax_tensor = sess.graph.get_tensor_by_name('final_result:0')
 
 		predictions = sess.run(softmax_tensor, \
-				 {'DecodeJpeg/contents:0': image_url})
+				 {'DecodeJpeg/contents:0': image})
 
 		# Sort to show labels of first prediction in order of confidence
 		top_k = predictions[0].argsort()[-len(predictions[0]):][::-1]
