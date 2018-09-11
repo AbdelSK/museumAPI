@@ -23,6 +23,7 @@ def classify():
 	image = image.resize(img_size, Image.LANCZOS)  
 	image = image.convert('1')   
 	image_array = np.asarray(image)
+	
 	image_array = image_array.flatten()
     # Read the image_data
 	#image_data = tf.gfile.FastGFile(image_path, 'rb').read()
@@ -43,7 +44,7 @@ def classify():
 		softmax_tensor = sess.graph.get_tensor_by_name('final_result:0')
 
 		predictions = sess.run(softmax_tensor, \
-				 {'DecodeJpeg/contents:0': image_array})
+				 {'DecodeJpeg/contents:0': image_url})
 
 		# Sort to show labels of first prediction in order of confidence
 		top_k = predictions[0].argsort()[-len(predictions[0]):][::-1]
