@@ -19,8 +19,8 @@ def classify():
 		filename = secure_filename(file.filename)
 		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     # Read the image_data
+	print(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 	image_data = tf.gfile.FastGFile(os.path.join(app.config['UPLOAD_FOLDER'], filename), 'rb').read()
-
 
 	# Loads label file, strips off carriage return
 	label_lines = [line.rstrip() for line
