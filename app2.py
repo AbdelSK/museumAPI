@@ -62,8 +62,8 @@ def classify():
 			score = predictions[0][node_id]
 			print('%s (score = %.5f)' % (human_string, score))
 			scoreList.append({
-				'label': human_string,
-				'score': score
+				'label': str(human_string),
+				'score': str(score)
 			})
 			
 		return json.dumps(scoreList)
