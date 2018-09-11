@@ -17,7 +17,7 @@ def classify():
 	image_url = request.values['imageBase64']
 	print(image_url)
 	image_string = re.search(r'base64,(.*)', image_url).group(1)  
-	image_bytes = io.BytesIO(base64.b64decode(image_string)) 
+	image_bytes = BytesIO(base64.b64decode(image_string)) 
 	image = Image.open(image_bytes) 
 	image = image.resize(img_size, Image.LANCZOS)  
 	image = image.convert('1')   
