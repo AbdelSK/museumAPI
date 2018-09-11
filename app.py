@@ -23,7 +23,7 @@ def classify():
 	#image = image.resize(img_size, Image.LANCZOS)  
 	#image = image.convert('1')   
 	#image_array = np.asarray(image)
-	#image_array = image_array.flatten()
+	#image_array = image_array.flatten()#
 
 	# Loads label file, strips off carriage return
 	label_lines = [line.rstrip() for line
