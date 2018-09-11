@@ -48,7 +48,7 @@ def classify():
 		for node_id in top_k:
 			human_string = label_lines[node_id]
 			score = predictions[0][node_id]
-			#print('%s (score = %.5f)' % (human_string, score))
+			print('%s (score = %.5f)' % (human_string, score))
 			scoreList.append({
 				'label': human_string,
 				'score': score
@@ -56,4 +56,4 @@ def classify():
 			
 		return json.dumps(scoreList)
 if __name__ == '__main__':
-    app.run(debug=True, port=8009)
+    app.run(debug=True, host= '0.0.0.0', port=8009)
