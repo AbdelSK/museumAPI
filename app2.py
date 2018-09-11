@@ -12,6 +12,11 @@ from PIL import Image
 app = Flask(__name__)
 app.config.from_object(__name__)
 
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
+
+		  
 @app.route('/upload', methods=['POST'])
 def classify():
 	file = request.files['file']
