@@ -1,6 +1,8 @@
 import logging
 import random
 import time
+import re
+from io import StringIO
 
 from flask import Flask, jsonify, request
 import numpy as np
@@ -51,7 +53,8 @@ output_tensor = output_op.outputs[0]
 @app.route('/upload', methods=['POST'])
 def classify():
 	img_size = 28, 28 
-	image_url = request.values['imageBase64']  
+	image_url = request.values['imageBase64']
+	print image_url
 	image_string = re.search(r'base64,(.*)', image_url).group(1)  
 	image_bytes = io.BytesIO(base64.b64decode(image_string)) 
 	image = Image.open(image_bytes) 
