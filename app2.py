@@ -12,6 +12,9 @@ from PIL import Image
 app = Flask(__name__)
 app.config.from_object(__name__)
 
+app.config['UPLOAD_FOLDER'] = 'uploads/'
+app.config['ALLOWED_EXTENSIONS'] = set(['png', 'jpg', 'jpeg'])
+
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
