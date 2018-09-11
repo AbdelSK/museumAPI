@@ -19,5 +19,6 @@ def classify():
 	print(image_url)
 	print("aqui va la request: ")
 	print(request)
+	return image_url
 if __name__ == '__main__':
     app.run(debug=True, host= '0.0.0.0', port=8009)
