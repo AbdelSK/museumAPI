@@ -34,7 +34,6 @@ def classify():
 	image_url = request.values['imageBase64']
 	imgpth = "/tmp/{}".format(base64.b64encode(imgurl.encode('utf-8')))
     urllib.request.urlretrieve(imgurl, imgpth)
-
 	image_data = tf.gfile.FastGFile(imgpth, 'rb').read()
 
 	# Loads label file, strips off carriage return
