@@ -30,9 +30,12 @@ def allowed_file(filename):
 @app.route('/upload', methods=['POST'])
 def classify():
 	image_url = request.values['imageBase64']
-	file = open(os.path.join(app.config['UPLOAD_FOLDER'], "image.jpg"), "wb")
-    file.write(base64.decodebytes(image_url.encode()))
-	
+    starter = image_url.find(',')
+    image_data = image_url[starter+1:]
+    image_data = bytes(image_data, encoding="ascii")
+    file = Image.open(BytesIO(base64.b64decode(image_data)))
+    file.save(os.path.join(app.config['UPLOAD_FOLDER'], 'image.jpg'))
+
 	if file and allowed_file(file.filename):
 		filename = secure_filename(file.filename)
     # Read the image_data
@@ -69,6 +72,6 @@ def classify():
 			})
 			
 		return json.dumps(scoreList)
-
+		
 if __name__ == '__main__':
     app.run(debug=True, host= '0.0.0.0', port=8009)
