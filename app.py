@@ -38,6 +38,7 @@ def classify():
 
 	if file and allowed_file(file.filename):
 		filename = secure_filename(file.filename)
+
     # Read the image_data
 	print(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 	image_data = tf.gfile.FastGFile(os.path.join(app.config['UPLOAD_FOLDER'], filename), 'rb').read()
