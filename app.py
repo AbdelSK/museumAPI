@@ -30,8 +30,8 @@ def allowed_file(filename):
 @app.route('/upload', methods=['POST'])
 def classify():
 	image_url = request.values['imageBase64']
-    starter = image_url.find(',')
-    image_data = image_url[starter+1:]
+	starter = image_url.find(',')
+	image_data = image_url[starter+1:]
     image_data = bytes(image_data, encoding="ascii")
     file = Image.open(BytesIO(base64.b64decode(image_data)))
     file.save(os.path.join(app.config['UPLOAD_FOLDER'], 'image.jpg'))
