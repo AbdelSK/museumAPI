@@ -29,8 +29,9 @@ def allowed_file(filename):
 		  
 @app.route('/upload', methods=['POST'])
 def classify():
-	data = request.json
+	data = request.data
 	image_url = data['imageBase64']
+	
 	starter = image_url.find(',')
 	image_data = image_url[starter+1:]
 	image_data = bytes(image_data, encoding="ascii")
