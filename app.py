@@ -35,13 +35,13 @@ def classify():
 	image_data = bytes(image_data, encoding="ascii")
 	file = Image.open(BytesIO(base64.b64decode(image_data)))
 	file.save(os.path.join(app.config['UPLOAD_FOLDER'], 'image.jpg'))
-
-	if file and allowed_file(file.filename):
-		filename = secure_filename(file.filename)
+	
+	#if file and allowed_file(file.filename):
+	#	filename = secure_filename(file.filename)
 
     # Read the image_data
-	print(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-	image_data = tf.gfile.FastGFile(os.path.join(app.config['UPLOAD_FOLDER'], filename), 'rb').read()
+	#print(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+	image_data = tf.gfile.FastGFile(os.path.join(app.config['UPLOAD_FOLDER'], 'image.jpg'), 'rb').read()
 
 	# Loads label file, strips off carriage return
 	label_lines = [line.rstrip() for line
