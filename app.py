@@ -15,8 +15,10 @@ import os
 import six.moves.urllib as urllib
 import sys
 from collections import defaultdict
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 app.config.from_object(__name__)
 
 app.config['UPLOAD_FOLDER'] = 'uploads/'
@@ -29,7 +31,7 @@ def allowed_file(filename):
 		  
 @app.route('/upload', methods=['POST'])
 def classify():
-	data = request.data
+	data = request.json
 	image_url = data['imageBase64']
 	
 	starter = image_url.find(',')
