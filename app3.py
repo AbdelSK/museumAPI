@@ -20,22 +20,13 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 
 app.config['UPLOAD_FOLDER'] = 'uploads/'
-app.config['ALLOWED_EXTENSIONS'] = set(['png', 'jpg', 'jpeg'])
 
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
-
-		  
 @app.route('/upload', methods=['POST'])
 def classify():
 	image_url = request.values['imageBase64']
 	with open(os.path.join(app.config['UPLOAD_FOLDER'], 'image.png'), 'wb') as fh:
         fh.write(base64.decodebytes(image_url))
 	filename = 'image.png'
-	#if file and allowed_file(file.filename):
-	#	filename = secure_filename(file.filename)
-	#	file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     # Read the image_data
 	print(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 	image_data = tf.gfile.FastGFile(os.path.join(app.config['UPLOAD_FOLDER'], filename), 'rb').read()
