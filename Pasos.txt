@@ -32,4 +32,4 @@ python3 classify.py images.jpg
 ----------------------------
 -  Ejecutar servicio web:  -
 ----------------------------
-python3 app.py
+python3 app3.py
