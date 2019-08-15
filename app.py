@@ -24,8 +24,7 @@ app.config['UPLOAD_FOLDER'] = 'uploads/'
 @app.route('/upload', methods=['POST'])
 def classify():
 	image_url = request.values['imageBase64']
-	with open(os.path.join(app.config['UPLOAD_FOLDER'], 'image.png'), 'wb') as fh:
-        fh.write(base64.decodebytes(image_url))
+	with open(os.path.join(app.config['UPLOAD_FOLDER'], 'image.png'), 'wb') as fh:fh.write(base64.decodebytes(image_url))
 	filename = 'image.png'
     # Read the image_data
 	print(os.path.join(app.config['UPLOAD_FOLDER'], filename))
